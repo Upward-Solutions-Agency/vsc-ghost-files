@@ -1,41 +1,94 @@
 {
-  "name": "ghostfiles",
-  "displayName": "ghostfiles",
-  "description": "Tame noisy files in your Explorer. GhostFiles dims them without hiding.",
-  "version": "0.0.1",
-  "engines": {
-    "vscode": "^1.98.0"
-  },
-  "categories": [
-    "Other"
-  ],
-  "activationEvents": [],
-  "main": "./out/extension.js",
-  "contributes": {
-    "commands": [
-      {
-        "command": "ghostfiles.helloWorld",
-        "title": "Hello World"
-      }
-    ]
-  },
-  "scripts": {
-    "vscode:prepublish": "npm run compile",
-    "compile": "tsc -p ./",
-    "watch": "tsc -watch -p ./",
-    "pretest": "npm run compile && npm run lint",
-    "lint": "eslint src",
-    "test": "vscode-test"
-  },
-  "devDependencies": {
-    "@types/vscode": "^1.98.0",
-    "@types/mocha": "^10.0.10",
-    "@types/node": "20.x",
-    "@typescript-eslint/eslint-plugin": "^8.28.0",
-    "@typescript-eslint/parser": "^8.28.0",
-    "eslint": "^9.23.0",
-    "typescript": "^5.8.2",
-    "@vscode/test-cli": "^0.0.10",
-    "@vscode/test-electron": "^2.4.1"
-  }
+    "name": "file-visibility-toggle",
+    "publisher": "upward-solutions",
+    "displayName": "Visibility Toggle (for Excluded Files)",
+    "description": "Easily reveal excluded files and folders via UI toggle or command.",
+    "icon": "images/icon.png",
+    "version": "0.0.1",
+    "engines": {
+        "vscode": "^1.98.0"
+    },
+    "categories": [
+        "Other"
+    ],
+    "activationEvents": [
+        "onCommand:fileVisibilityToggle.toggleVisibility",
+        "onCommand:fileVisibilityToggle.openSettings",
+        "onStartupFinished"
+    ],
+    "main": "./out/extension.js",
+    "contributes": {
+        "commands": [
+            {
+                "command": "fileVisibilityToggle.toggleVisibility",
+                "title": "Toggle Extended Visibility",
+                "category": "File Visibility Toggle"
+            },
+            {
+                "command": "fileVisibilityToggle.openSettings",
+                "title": "File Visibility Settings",
+                "category": "File Visibility Toggle"
+            }
+        ],
+        "menus": {
+            "explorer/context": [
+                {
+                    "command": "fileVisibilityToggle.toggleVisibility",
+                    "group": "fileVisibilityToggle@1"
+                },
+                {
+                    "command": "fileVisibilityToggle.openSettings",
+                    "group": "fileVisibilityToggle@2"
+                }
+            ]
+        },
+        "configuration": {
+            "type": "object",
+            "title": "File Visibility Toggle",
+            "properties": {
+                "fileVisibilityToggle.fullVisibilityMode": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "The extension’s central toggling switch for Full Visibility Mode. When enabled, all excluded files and folders become visible in the Explorer until toggled off again. Equivalent to using the status bar or context menu.",
+                    "scope": "application"
+                },
+                "fileVisibilityToggle.protectedKeys": {
+                    "type": "array",
+                    "description": "Protect specific keys of your 'files.exclude' setting that should remain unaffected by visibility toggling. Most Important Use Case: required to permanently preserve explicit overrides of VS Code’s default exclusions. Recommended Procedure: copy the exact key from your settings.json (never with an 'IGNORE:' prefix). User Versus Workspace Scope: only affects keys within the same scope. For example, workspace-specific protections only apply to workspace-defined exclusion keys.",
+                    "items": {
+                        "type": "string"
+                    },
+                    "scope": "window"
+                },
+                "fileVisibilityToggle.alsoToggleGitIgnoreExclusion": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Toggles VS Code’s 'Exclude Git Ignore' setting in sync with Full Visibility Mode.\n User Versus Workspace Scope: Applies only within the same scope. For example, if this setting is only enabled within the workspace scope, then only the 'Exclude Git Ignore' setting of that scope will be synced.",
+                    "scope": "window"
+                }
+            }
+        }
+    },
+    "scripts": {
+        "vscode:prepublish": "npm run compile",
+        "compile": "tsc -p ./",
+        "watch": "tsc -watch -p ./",
+        "pretest": "npm run compile && npm run lint",
+        "lint": "eslint src",
+        "test": "vscode-test"
+    },
+    "devDependencies": {
+        "@types/mocha": "^10.0.10",
+        "@types/node": "20.x",
+        "@types/vscode": "^1.98.0",
+        "@typescript-eslint/eslint-plugin": "^8.28.0",
+        "@typescript-eslint/parser": "^8.28.0",
+        "@vscode/test-cli": "^0.0.10",
+        "@vscode/test-electron": "^2.4.1",
+        "eslint": "^9.23.0",
+        "typescript": "^5.8.2"
+    },
+    "dependencies": {
+        "minimatch": "^10.0.1"
+    }
 }
