@@ -4,7 +4,11 @@
     "displayName": "Visibility Toggle (for Excluded Files)",
     "description": "Easily reveal excluded files and folders via UI toggle or command.",
     "icon": "images/icon.png",
-    "version": "0.0.2",
+    "version": "0.0.3",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/Upward-Solutions-Agency/vsc-visibility-toggle"
+    },
     "engines": {
         "vscode": "^1.98.0"
     },
